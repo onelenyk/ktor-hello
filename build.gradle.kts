@@ -70,6 +70,20 @@ application {
     mainClass.set(mainAppClassName)
 }
 
+tasks.withType<Jar> {
+    manifest {
+        attributes(
+            mapOf(
+                "Main-Class" to mainAppClassName
+            )
+        )
+    }
+
+    // Include all dependencies in the JAR
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 ktor {
     fatJar {
         archiveFileName.set("fat.jar")

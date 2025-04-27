@@ -20,29 +20,51 @@ import org.koin.ktor.plugin.Koin
 import org.koin.logger.slf4jLogger
 
 class Server {
+    private val logger = org.slf4j.LoggerFactory.getLogger(Server::class.java)
+
     fun start(): NettyApplicationEngine {
-        val server =
-            embeddedServer(
-                Netty,
-                port = provideServerPort(dotenv = dotenv()) ?: 8080,
-            ) {
-                module(this)
-            }
-        server.start(wait = true)
+        logger.info("Starting Ktor server initialization...")
+        val port = System.getenv("PORT")?.toInt() ?: provideServerPort(dotenv = dotenv()) ?: 8080
+        logger.info("Configuring server on port: $port")
+        
+        val server = embeddedServer(Netty, port = port) {
+            module(this)
+        }
+        
+        try {
+            logger.info("Starting server...")
+            server.start(wait = true)
+            logger.info("Server successfully started on port: $port")
+        } catch (e: Exception) {
+            logger.error("Failed to start server: ${e.message}", e)
+            throw e
+        }
         return server
     }
 
     fun module(application: Application) =
         application.apply {
+            logger.info("Configuring application modules...")
+            
+            logger.info("Installing Koin dependency injection...")
             install(Koin) {
-                slf4jLogger()
+                logger
                 modules(koinModule)
             }
+            
+            logger.info("Setting up request logging...")
             install(CallLogging)
+            
+            logger.info("Configuring request validation...")
             install(RequestValidation)
+            
+            logger.info("Setting up content serialization...")
             configureSerialization()
 
+            logger.info("Configuring routing...")
             configureRouting()
+            
+            logger.info("Application modules configuration completed")
         }
 
     private fun Application.configureSerialization() =

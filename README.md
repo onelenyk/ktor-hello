@@ -1,63 +1,115 @@
-# Crudfather
+# Ktor Hello
 
-Crudfather is a Kotlin-based project utilizing Ktor for server-side development. It focuses on
-creating dynamic CRUD endpoints for dynamically generated models. This project aims to simplify the
-process of managing different data models by allowing new model definitions to be created at runtime
-without changing the server code.
+A modern Kotlin-based web application built with Ktor framework. This project demonstrates a clean architecture approach to building web services with Kotlin and Ktor.
 
 ## Features
 
-- **Kotlin CLI**: Built with Kotlin, ensuring modern language features and robust performance.
-- **Dynamic Models**: Allows creation of new data models at runtime.
-- **CRUD Operations**: Supports create, read, update, and delete operations for dynamic models.
-- **MongoDB Integration**: Uses MongoDB for data storage.
-- **Koin Dependency Injection**: Ensures a modular and maintainable codebase.
-- **Comprehensive Documentation**: Generates detailed documentation using Dokka.
+- **Kotlin & Ktor**: Built with Kotlin 2.0.0 and Ktor 2.3.3
+- **MongoDB Integration**: Uses MongoDB for data persistence
+- **Dependency Injection**: Uses Koin for dependency management
+- **API Documentation**: Integrated with Dokka for comprehensive documentation
+- **Code Quality**: Integrated with ktlint for consistent code style
+- **JWT Authentication**: Secure endpoints with JWT-based authentication
+- **Content Negotiation**: JSON serialization support
+- **Health Checks**: Built-in health check endpoints
+- **Static Resources**: Serves static content
 
-## Installation
+## Project Structure
 
-### Prerequisites
+```
+src/main/kotlin/dev/onelenyk/ktorhello/
+├── app/
+│   ├── Application.kt        # Main application entry point
+│   ├── Server.kt            # Server configuration
+│   ├── di/                  # Dependency injection
+│   └── routing/             # API routes
+├── data/
+│   └── db/                  # Database configuration
+└── utils/                   # Utility classes
+```
 
-- JDK 8 or higher
-- Gradle 8.2 or higher
-- MongoDB
+## API Endpoints
 
-### Setup
+- `/routes` - Lists all available routes
+- `/live` - Health check endpoint
+- `/hello` - Sample endpoint returning "Hello, Ktor!"
+- `/` - Serves static documentation
+
+## Prerequisites
+
+- JDK 17 or higher
+- Gradle 8.x
+- MongoDB (if using database features)
+
+## Getting Started
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/onelenyk/crudfather.git
+   git clone https://github.com/onelenyk/ktor-hello.git
    ```
-2. Navigate to the project directory:
+
+2. Navigate to project directory:
    ```sh
-   cd crudfather
+   cd ktor-hello
    ```
+
 3. Build the project:
    ```sh
    ./gradlew build
    ```
 
-## Usage
-
-### Running the Server
-
-1. Start the MongoDB server.
-2. Run the application:
+4. Run the application:
    ```sh
    ./gradlew run
    ```
 
-## Contributions
+The server will start on `http://localhost:8080`
 
-Contributions are welcome! Please submit a pull request or open an issue for any improvements or bug
-fixes.
+## Development
 
-## Acknowledgements
+- Use `./gradlew ktlintCheck` to check code style
+- Use `./gradlew dokkaHtml` to generate documentation
 
-- **onelenyk** - Initial work and maintenance.
-- **ChatGPT by OpenAI** - Assisted in development by providing code insights, optimization
-  strategies, and documentation support.
+## Deployment
+
+### Deploying to Heroku
+
+1. Install the Heroku CLI and login:
+   ```sh
+   brew install heroku
+   heroku login
+   ```
+
+2. Create a new Heroku app:
+   ```sh
+   heroku create your-app-name
+   ```
+
+3. Deploy to Heroku:
+   ```sh
+   git push heroku main
+   ```
+
+4. Ensure at least one instance is running:
+   ```sh
+   heroku ps:scale web=1
+   ```
+
+5. Open the deployed application:
+   ```sh
+   heroku open
+   ```
+
+### Environment Variables
+
+The following environment variables can be configured in Heroku:
+
+- `PORT` - Automatically set by Heroku
+- Add any other environment variables your application needs using:
+  ```sh
+  heroku config:set VARIABLE_NAME=value
+  ```
 
 ## License
 
-This project is licensed under the [Apache License 2.0](LICENSE).
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
