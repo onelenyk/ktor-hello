@@ -1,0 +1,1 @@
+web: ./build/install/ktor-hello/bin/ktor-hello
