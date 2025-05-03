@@ -1,115 +1,56 @@
 # Ktor Hello
 
-A modern Kotlin-based web application built with Ktor framework. This project demonstrates a clean architecture approach to building web services with Kotlin and Ktor.
+Starter template for my Kotlin + Ktor projects. A simple backend server with common features I use. Ready for deployment.
 
-## Features
+## What's Inside
 
-- **Kotlin & Ktor**: Built with Kotlin 2.0.0 and Ktor 2.3.3
-- **MongoDB Integration**: Uses MongoDB for data persistence
-- **Dependency Injection**: Uses Koin for dependency management
-- **API Documentation**: Integrated with Dokka for comprehensive documentation
-- **Code Quality**: Integrated with ktlint for consistent code style
-- **JWT Authentication**: Secure endpoints with JWT-based authentication
-- **Content Negotiation**: JSON serialization support
-- **Health Checks**: Built-in health check endpoints
-- **Static Resources**: Serves static content
+- Kotlin 2.0.0 + Ktor 2.3.3
+- MongoDB for data
+- Static file serving
+- Health checks
+- Gradle setup ready for deployment:
+    - Ktlint for code style
+    - Dokka for docs
+    - Fat JAR packaging
+    - Deployment config
 
-## Project Structure
+## Quick Start
 
-```
-src/main/kotlin/dev/onelenyk/ktorhello/
-├── app/
-│   ├── Application.kt        # Main application entry point
-│   ├── Server.kt            # Server configuration
-│   ├── di/                  # Dependency injection
-│   └── routing/             # API routes
-├── data/
-│   └── db/                  # Database configuration
-└── utils/                   # Utility classes
-```
-
-## API Endpoints
-
-- `/routes` - Lists all available routes
-- `/live` - Health check endpoint
-- `/hello` - Sample endpoint returning "Hello, Ktor!"
-- `/` - Serves static documentation
-
-## Prerequisites
-
-- JDK 17 or higher
-- Gradle 8.x
-- MongoDB (if using database features)
-
-## Getting Started
-
-1. Clone the repository:
+1. Clone it:
    ```sh
    git clone https://github.com/onelenyk/ktor-hello.git
-   ```
-
-2. Navigate to project directory:
-   ```sh
    cd ktor-hello
    ```
 
-3. Build the project:
+2. Setup environment:
+   Edit .env with your settings:
    ```sh
-   ./gradlew build
+   DB_CONNECTION="@localhost/?retryWrites=true&w=majority"
+   PORT=8080
+   DB_USERNAME=luianderson
+   DB_PASSWORD=123123
    ```
 
-4. Run the application:
+3. Run it:
    ```sh
    ./gradlew run
    ```
 
-The server will start on `http://localhost:8080`
+Server starts at `http://localhost:8080`
 
 ## Development
 
-- Use `./gradlew ktlintCheck` to check code style
-- Use `./gradlew dokkaHtml` to generate documentation
+- `./gradlew ktlintCheck` - check code style
+- `./gradlew dokkaHtml` - generate docs
 
-## Deployment
+## Deploy to Heroku
 
-### Deploying to Heroku
-
-1. Install the Heroku CLI and login:
-   ```sh
-   brew install heroku
-   heroku login
-   ```
-
-2. Create a new Heroku app:
-   ```sh
-   heroku create your-app-name
-   ```
-
-3. Deploy to Heroku:
-   ```sh
-   git push heroku main
-   ```
-
-4. Ensure at least one instance is running:
-   ```sh
-   heroku ps:scale web=1
-   ```
-
-5. Open the deployed application:
-   ```sh
-   heroku open
-   ```
-
-### Environment Variables
-
-The following environment variables can be configured in Heroku:
-
-- `PORT` - Automatically set by Heroku
-- Add any other environment variables your application needs using:
-  ```sh
-  heroku config:set VARIABLE_NAME=value
-  ```
+```sh
+heroku create your-app-name
+git push heroku main
+heroku ps:scale web=1
+```
 
 ## License
 
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+Apache 2.0 - see [LICENSE](LICENSE)

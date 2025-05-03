@@ -33,6 +33,8 @@ dependencies {
 
     implementation(kotlin("stdlib"))
 
+    implementation("com.github.inforion:kotlin-logging:0.2.3")
+
     // Ktor dependencies
     implementation("io.ktor:ktor-server-core:$ktorVersion")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
@@ -74,8 +76,8 @@ tasks.withType<Jar> {
     manifest {
         attributes(
             mapOf(
-                "Main-Class" to mainAppClassName
-            )
+                "Main-Class" to mainAppClassName,
+            ),
         )
     }
 

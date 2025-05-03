@@ -17,26 +17,28 @@ import io.ktor.server.routing.routing
 import kotlinx.serialization.json.Json
 import org.koin.ktor.ext.inject
 import org.koin.ktor.plugin.Koin
-import org.koin.logger.slf4jLogger
+import ru.inforion.lab403.common.logging.TRACE
+import ru.inforion.lab403.common.logging.logger
 
 class Server {
-    private val logger = org.slf4j.LoggerFactory.getLogger(Server::class.java)
+    val log = logger(TRACE)
 
     fun start(): NettyApplicationEngine {
-        logger.info("Starting Ktor server initialization...")
+        log.config { "Starting Ktor server initialization..." }
         val port = System.getenv("PORT")?.toInt() ?: provideServerPort(dotenv = dotenv()) ?: 8080
-        logger.info("Configuring server on port: $port")
-        
-        val server = embeddedServer(Netty, port = port) {
-            module(this)
-        }
-        
+        log.info { "Configuring server on port: $port" }
+
+        val server =
+            embeddedServer(Netty, port = port) {
+                module(this)
+            }
+
         try {
-            logger.info("Starting server...")
+            log.severe { "Starting server..." }
             server.start(wait = true)
-            logger.info("Server successfully started on port: $port")
+            log.severe { "Server successfully started on port: $port" }
         } catch (e: Exception) {
-            logger.error("Failed to start server: ${e.message}", e)
+            log.warning { "Failed to start server: ${e.message}" }
             throw e
         }
         return server
@@ -44,27 +46,27 @@ class Server {
 
     fun module(application: Application) =
         application.apply {
-            logger.info("Configuring application modules...")
-            
-            logger.info("Installing Koin dependency injection...")
+            log.fine { "Configuring application modules..." }
+
+            log.fine { "Installing Koin dependency injection..." }
             install(Koin) {
-                logger
+                log
                 modules(koinModule)
             }
-            
-            logger.info("Setting up request logging...")
+
+            log.fine { "Setting up request logging..." }
             install(CallLogging)
-            
-            logger.info("Configuring request validation...")
+
+            log.fine { "Configuring request validation..." }
             install(RequestValidation)
-            
-            logger.info("Setting up content serialization...")
+
+            log.finest { "Setting up content serialization..." }
             configureSerialization()
 
-            logger.info("Configuring routing...")
+            log.finest { "Configuring routing..." }
             configureRouting()
-            
-            logger.info("Application modules configuration completed")
+
+            log.finest { "Application modules configuration completed" }
         }
 
     private fun Application.configureSerialization() =
